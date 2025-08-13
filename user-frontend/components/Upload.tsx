@@ -31,7 +31,7 @@ export const Upload = () => {
                 }
             })
             router.push(`/task/${response.data.id}`)
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Submit task failed:", error);
             alert("Failed to submit task. Please try again.");
         } finally {
@@ -95,7 +95,7 @@ export const Upload = () => {
             }, 6000); // Changed to 6-second delay
             // --- WORKAROUND END ---
 
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Payment failed:", error);
             alert(`Payment failed: ${error instanceof Error ? error.message : String(error)}. Please try again.`);
             setTxSignature(""); // Reset signature on failure
