@@ -83,7 +83,7 @@ export const Appbar = () => {
     }, [publicKey]);
 
     const handleWorkerLogin = () => {
-        window.location.href = "http://localhost:3002/"; // Redirect to worker frontend
+        window.location.href = process.env.NEXT_PUBLIC_WORKER_FRONTEND_URL || "http://localhost:3002/"; // Redirect to worker frontend
     };
 
     return (
