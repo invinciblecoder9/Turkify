@@ -1,1 +1,1 @@
-export const privateKey = "5NB7tHPrgLWW5wLJTGjp9o4onLdDbtmgpeT93nUbU2ZSZoaxBruUrqiFvc4RJzWS9h5FkKNJLZsSGDHizBajkYZp";
+export const privateKey = "";
