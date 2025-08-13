@@ -48,7 +48,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useEffect, useState } from 'react'; // Keep useState if you plan to re-introduce balance
+import { useEffect } from 'react'; // Keep useState if you plan to re-introduce balance
 import axios from 'axios';
 import { BACKEND_URL } from '@/utils';
 

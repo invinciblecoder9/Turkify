@@ -26,13 +26,6 @@ export function UploadImage({ onImageAdded, image }: {
             // 2. Upload file directly using PUT request (GCP specific)
             // For GCP pre-signed PUT, you send the file directly as the body
             // and the Content-Type header is crucial.
-            const gcpResponse = await axios.put(presignedUrl, file, {
-                headers: {
-                    // This Content-Type MUST match what was used when generating the pre-signed URL on the backend
-                    'Content-Type': file.type
-                }
-            });
-
             // 3. Construct the final image URL for display
             // The preSignedUrl from GCP contains the full GCS path.
             // We need to extract the object key (path within the bucket) from it.
