@@ -12,8 +12,6 @@ export function UploadImage({ onImageAdded, image }: {
     async function onFileSelect(e: any) {
         setUploading(true);
         try {
-            const file = e.target.files[0];
-
             // 1. Get pre-signed URL from backend (now GCP specific)
             const response = await axios.get(`${BACKEND_URL}/v1/user/presignedUrl`, {
                 headers: {
@@ -40,7 +38,7 @@ export function UploadImage({ onImageAdded, image }: {
             // The final URL will be CLOUDFRONT_URL/objectKey
             onImageAdded(`${CLOUDFRONT_URL}/${objectKey}`);
 
-        } catch(e) {
+        } catch(e: unknown) {
             // Use console.error for better error visibility in the browser console
             console.error("Image upload failed:", e); 
         }

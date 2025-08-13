@@ -63,6 +63,7 @@ import { BACKEND_URL } from '@/utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic'; // Import dynamic for Appbar
+import Image from 'next/image';
 
 // Dynamically import Appbar with ssr: false to prevent hydration errors
 const DynamicAppbar = dynamic(() => import('@/components/Appbar').then(mod => mod.Appbar), { ssr: false });
@@ -216,7 +217,7 @@ function Task({ imageUrl, votes }: {
 }) {
     return (
         <div className="p-2"> {/* Added some padding around each task image */}
-            <img className={"p-2 w-96 rounded-md"} src={imageUrl} alt="Task image" /> {/* Added alt text for accessibility */}
+            <Image className={"p-2 w-96 rounded-md"} src={imageUrl} alt="Task image" /> {/* Added alt text for accessibility */}
             <div className='flex justify-center text-black'> {/* Ensure text is black */}
                 Votes: {votes}
             </div>
