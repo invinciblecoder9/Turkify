@@ -82,7 +82,7 @@ export const Appbar = () => {
 
             setBalance(response.data.amount);
             localStorage.setItem("token", response.data.token);
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Worker sign-in failed:", error);
             // Optionally alert user or handle UI feedback for failed sign-in
         }
@@ -92,7 +92,7 @@ export const Appbar = () => {
         if (publicKey) {
             signAndSend();
         }
-    }, [publicKey]);
+    }, [publicKey, signAndSend]);
 
     const handlePayout = async () => {
         try {

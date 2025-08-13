@@ -21,9 +21,11 @@ export default function RootLayout({
   const endpoint = "https://solana-devnet.g.alchemy.com/v2/vY6QqmImyweRBYMpQ2PU0";
 
   const wallets = useMemo(
-      () => [],
-      [network]
-  );
+    () => [
+        // ...
+    ],
+    [network] // If you are sure network is a stable dependency, you can ignore this specific warning via ESLint config
+);
 
     return (
     <ConnectionProvider endpoint={endpoint}>

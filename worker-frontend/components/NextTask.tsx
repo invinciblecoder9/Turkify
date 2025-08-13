@@ -2,6 +2,7 @@
 import { BACKEND_URL } from "@/utils";
 import axios from "axios";
 import { useEffect, useState } from "react"
+import Image from 'next/image';
 
 interface Task {
     "id": number,
@@ -138,6 +139,7 @@ function Option({imageUrl, onSelect}: {
 //                 setCurrentTask(res.data.task);
 //                 setLoading(false)
 //             })
+//             // @ts-expect-error
 //             .catch(e => {
 //                 setLoading(false)
 //                 setCurrentTask(null)
@@ -233,11 +235,13 @@ function Option({imageUrl, onSelect}: {
 //                        transition-all duration-300 ease-in-out cursor-pointer 
 //                        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-blue-500 hover:shadow-2xl transform hover:scale-105'}`}
 //         >
-//             <img 
-//                 className="w-full h-full object-cover rounded-md" 
-//                 src={imageUrl} 
-//                 alt="Task option" 
-//             />
+//              <Image // <--- Use Image component
+            //     src={imageUrl}
+            //     alt="Task option" // <--- Ensure alt prop is present
+            //     width={384} // Set a fixed width (e.g., 384px for w-96)
+            //     height={256} // Set a fixed height (adjust as needed for aspect ratio)
+            //     className="w-full h-full object-cover rounded-md"
+            // />
 //             {/* Optional overlay for disabled state */}
 //             {disabled && (
 //                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold">
