@@ -50,7 +50,7 @@
 //     votes: number;
 // }) {
 //     return <div>
-//         <img className={"p-2 w-96 rounded-md"} src={imageUrl} />
+//         <Image className={"p-2 w-96 rounded-md"} src={imageUrl} />
 //         <div className='flex justify-center'>
 //             {votes}
 //         </div>

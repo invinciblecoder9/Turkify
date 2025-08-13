@@ -1,6 +1,7 @@
 "use client"
 import { BACKEND_URL, CLOUDFRONT_URL } from "@/utils";
 import axios from "axios";
+import Image from "next/image";
 import { useState } from "react"
 
 export function UploadImage({ onImageAdded, image }: {
@@ -9,7 +10,7 @@ export function UploadImage({ onImageAdded, image }: {
 }) {
     const [uploading, setUploading] = useState(false);
 
-    async function onFileSelect(e: any) {
+    async function onFileSelect(e: unknown) {
         setUploading(true);
         try {
             // 1. Get pre-signed URL from backend (now GCP specific)
@@ -46,7 +47,7 @@ export function UploadImage({ onImageAdded, image }: {
     }
 
     if (image) {
-        return <img className={"p-2 w-96 rounded"} src={image} alt="Uploaded content" /> // Added alt text for accessibility
+        return <Image className={"p-2 w-96 rounded"} src={image} alt="Uploaded content" /> // Added alt text for accessibility
     }
 
      return (
