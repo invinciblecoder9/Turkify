@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
@@ -24,7 +24,7 @@ export default function RootLayout({
     () => [
         // ...
     ],
-    [network] // If you are sure network is a stable dependency, you can ignore this specific warning via ESLint config
+    [] 
 );
 
     return (

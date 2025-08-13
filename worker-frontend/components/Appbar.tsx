@@ -58,7 +58,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '@/utils';
 
@@ -106,8 +106,9 @@ export const Appbar = () => {
             alert(response.data.message); // Show success message
             // Optionally update balance after successful payout
             // setBalance(0); 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Payout failed:", error);
+            //@ts-expect-error
             alert(`Payout failed: ${error.response?.data?.message || error.message}`);
         } finally {
             // setIsPayoutLoading(false);

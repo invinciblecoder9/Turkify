@@ -2,7 +2,6 @@
 import { BACKEND_URL } from "@/utils";
 import axios from "axios";
 import { useEffect, useState } from "react"
-import Image from 'next/image';
 
 interface Task {
     "id": number,
@@ -28,12 +27,10 @@ export const NextTask = () => {
                 "Authorization": localStorage.getItem("token")
             }
         })
-        //@ts-ignore
             .then(res => {
                 setCurrentTask(res.data.task);
                 setLoading(false)
             })
-            //@ts-ignore
             .catch(e => {
                 setLoading(false)
                 setCurrentTask(null)
