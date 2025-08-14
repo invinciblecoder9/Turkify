@@ -48,7 +48,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useEffect } from 'react'; // Keep useState if you plan to re-introduce balance
+import { useEffect, useState } from 'react'; // Keep useState if you plan to re-introduce balance
 import axios from 'axios';
 import { BACKEND_URL } from '@/utils';
 
@@ -56,21 +56,23 @@ export const Appbar = () => {
     const { publicKey, signMessage } = useWallet();
     // const [balance, setBalance] = useState(0); // Uncomment if you re-introduce balance display
 
-   async function signAndSend() {
-    if (!publicKey) return;
-    try {
+    async function signAndSend() {
+        if (!publicKey) {
+            return;
+        }
         const message = new TextEncoder().encode("Sign into mechanical turks");
         const signature = await signMessage?.(message);
+        console.log(signature);
+        console.log(publicKey);
         const response = await axios.post(`${BACKEND_URL}/v1/user/signin`, {
             signature,
             publicKey: publicKey?.toString()
         });
+
+        // setBalance(response.data.amount); // Uncomment if you re-introduce balance display
         localStorage.setItem("token", response.data.token);
-    } catch (err) {
-        console.error("Sign-in failed:", err);
-        // Optionally set an error state or notify the user
     }
-}
+
     useEffect(() => {
         // Only attempt to sign and send if publicKey is available (wallet connected)
         // and if you want auto-signin on connect.
@@ -81,7 +83,7 @@ export const Appbar = () => {
     }, [publicKey]);
 
     const handleWorkerLogin = () => {
-        window.location.href = process.env.NEXT_PUBLIC_WORKER_FRONTEND_URL || "http://localhost:3002/"; // Redirect to worker frontend
+        window.location.href = "http://localhost:3002/"; // Redirect to worker frontend
     };
 
     return (
