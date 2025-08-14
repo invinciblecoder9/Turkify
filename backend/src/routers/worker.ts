@@ -4,11 +4,11 @@ import jwt from "jsonwebtoken";
 import { authMiddleware, workerMiddleware } from "../middleware";
 import { TOTAL_DECIMALS } from "../config";
 import { getNextTask } from "../db";
-import { createSubmissionInput } from "../types";
 import { ComputeBudgetProgram, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from "@solana/web3.js";
 import bs58 from 'bs58';
 //import { privateKey } from "../privateKey";
 import nacl from "tweetnacl";
+import { createSubmissionInput } from "../types/types";
 
 const connection = new Connection('https://solana-devnet.g.alchemy.com/v2/vY6QqmImyweRBYMpQ2PU0');
 const WORKER_JWT_SECRET=process.env.WORKER_JWT_SECRET as string;

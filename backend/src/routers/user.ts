@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import nacl from "tweetnacl";
 import { TOTAL_DECIMALS } from "../config";
 import { authMiddleware } from "../middleware";
-import { createTaskInput } from "../types";
 import { Connection, PublicKey } from "@solana/web3.js";
+import { createTaskInput } from "../types/types";
 
 const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/vY6QqmImyweRBYMpQ2PU0");
 const JWT_SECRET = process.env.JWT_SECRET as string;
