@@ -3,6 +3,7 @@ import { BACKEND_URL } from '@/utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic'; // Import dynamic for Appbar
+import { useParams } from 'next/navigation';
 
 // Dynamically import Appbar with ssr: false to prevent hydration errors
 const DynamicAppbar = dynamic(() => import('@/components/Appbar').then(mod => mod.Appbar), { ssr: false });
@@ -53,13 +54,47 @@ async function getTaskData(taskId: string): Promise<BackendTaskResponse> {
     return response.data;
 }
 
-export default function Page({ params }: { params: { taskId: string } }) {
-    const { taskId } = params; // Destructure taskId directly from params prop
+// export default function Page({ params }: { params: { taskId: string } }) {
+//     const { taskId } = params; // Destructure taskId directly from params prop
+
+//     const [taskResults, setTaskResults] = useState<Record<string, TaskResultEntry>>({});
+//     const [taskDetails, setTaskDetails] = useState<TaskDetails | null>(null); // Initialize as null
+//     const [loading, setLoading] = useState(true); // State for loading indicator
+//     const [error, setError] = useState<string | null>(null); // State for error messages
+
+//     useEffect(() => {
+//         if (!taskId) {
+//             setError("Task ID is missing in URL.");
+//             setLoading(false);
+//             return;
+//         }
+
+//         const fetchAndSetData = async () => {
+//             try {
+//                 setLoading(true); // Start loading
+//                 setError(null); // Clear previous errors
+//                 const data = await getTaskData(taskId); // Fetch data
+//                 setTaskResults(data.result);
+//                 setTaskDetails(data.taskDetails);
+//             } catch (err) {
+//                 console.error("Failed to fetch task details:", err);
+//                 setError(err instanceof Error ? err.message : "An unknown error occurred while fetching task.");
+//             } finally {
+//                 setLoading(false); // End loading regardless of success or failure
+//             }
+//         };
+
+//         fetchAndSetData();
+//     }, [taskId]); // Dependency array includes taskId
+export default function Page() { 
+    // FIX: Get taskId using the useParams hook
+    const params = useParams();
+    const taskId = params.taskId as string; // Assert type, as useParams returns string | string[]
 
     const [taskResults, setTaskResults] = useState<Record<string, TaskResultEntry>>({});
-    const [taskDetails, setTaskDetails] = useState<TaskDetails | null>(null); // Initialize as null
-    const [loading, setLoading] = useState(true); // State for loading indicator
-    const [error, setError] = useState<string | null>(null); // State for error messages
+    const [taskDetails, setTaskDetails] = useState<TaskDetails | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!taskId) {
@@ -70,22 +105,21 @@ export default function Page({ params }: { params: { taskId: string } }) {
 
         const fetchAndSetData = async () => {
             try {
-                setLoading(true); // Start loading
-                setError(null); // Clear previous errors
-                const data = await getTaskData(taskId); // Fetch data
+                setLoading(true);
+                setError(null);
+                const data = await getTaskData(taskId);
                 setTaskResults(data.result);
                 setTaskDetails(data.taskDetails);
-            } catch (err) {
+            } catch (err: unknown) {
                 console.error("Failed to fetch task details:", err);
                 setError(err instanceof Error ? err.message : "An unknown error occurred while fetching task.");
             } finally {
-                setLoading(false); // End loading regardless of success or failure
+                setLoading(false);
             }
         };
 
         fetchAndSetData();
-    }, [taskId]); // Dependency array includes taskId
-
+    }, [taskId])
     // --- Conditional Rendering for Loading, Error, and No Data States ---
     if (loading) {
         return (
