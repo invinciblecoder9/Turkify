@@ -56,23 +56,21 @@ export const Appbar = () => {
     const { publicKey, signMessage } = useWallet();
     // const [balance, setBalance] = useState(0); // Uncomment if you re-introduce balance display
 
-    async function signAndSend() {
-        if (!publicKey) {
-            return;
-        }
+   async function signAndSend() {
+    if (!publicKey) return;
+    try {
         const message = new TextEncoder().encode("Sign into mechanical turks");
         const signature = await signMessage?.(message);
-        console.log(signature);
-        console.log(publicKey);
         const response = await axios.post(`${BACKEND_URL}/v1/user/signin`, {
             signature,
             publicKey: publicKey?.toString()
         });
-
-        // setBalance(response.data.amount); // Uncomment if you re-introduce balance display
         localStorage.setItem("token", response.data.token);
+    } catch (err) {
+        console.error("Sign-in failed:", err);
+        // Optionally set an error state or notify the user
     }
-
+}
     useEffect(() => {
         // Only attempt to sign and send if publicKey is available (wallet connected)
         // and if you want auto-signin on connect.
