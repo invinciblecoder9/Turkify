@@ -9,7 +9,7 @@ export function UploadImage({ onImageAdded, image }: {
     image?: string;
 }) {
     const [uploading, setUploading] = useState(false);
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async function onFileSelect(e: unknown) {
         setUploading(true);
         try {

@@ -216,7 +216,7 @@ function Task({ imageUrl, votes }: {
     votes: number;
 }) {
     return (
-        <div className="p-2"> {/* Added some padding around each task image */}
+        <div className="p-2">
             <Image className={"p-2 w-96 rounded-md"} src={imageUrl} alt="Task image" /> {/* Added alt text for accessibility */}
             <div className='flex justify-center text-black'> {/* Ensure text is black */}
                 Votes: {votes}
