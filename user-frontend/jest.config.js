@@ -2,23 +2,22 @@
 const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: './',
 });
 
-// Add any custom config to be passed to Jest
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'jest-environment-jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], // This path must be correct
+  testEnvironment: 'jest-environment-jsdom', // This must be set correctly
   moduleNameMapper: {
-    // Handle module aliases (if you have them in tsconfig.json)
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/utils/(.*)$': '<rootDir>/utils/$1',
-    // Add other aliases as needed
   },
-  // If using TypeScript, you might need 'ts-jest' or 'babel-jest' with '@babel/preset-typescript'
-  // For simplicity, we assume basic Jest setup works with Next.js's built-in Babel/SWC
+  testMatch: [
+    '<rootDir>/__tests__/**/*.test.{js,jsx,ts,tsx}',
+    '<rootDir>/components/**/*.test.{js,jsx,ts,tsx}', // Ensure this path is correct for your test files
+    '<rootDir>/?(*.)+(spec|test).{js,jsx,ts,tsx}',
+  ],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/dist/'],
 };
 
-// createJestConfig is a wrapper that lets Next.js manage the Jest configuration
 module.exports = createJestConfig(customJestConfig);
