@@ -1,0 +1,48 @@
+// user-frontend/Jenkinsfile
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'Node_20.x' // Name from Jenkins Global Tool Configuration
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/invinciblecoder9/Turkify.git'
+                sh 'cd user-frontend' // Navigate into the specific frontend directory
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'cd user-frontend && npm install'
+            }
+        }
+        stage('Run Tests & Lint') {
+            steps {
+                // Assuming you have 'npm test' and 'npm run lint' scripts in user-frontend/package.json
+                sh 'cd user-frontend && npm test'
+                sh 'cd user-frontend && npm run lint'
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                // Builds the Next.js application for production
+                // -- --no-lint to skip linting if it's failing the build
+                sh 'cd user-frontend && npm run build -- --no-lint' 
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Build finished for User Frontend.'
+        }
+        failure {
+            echo 'User Frontend build failed!'
+            // Add notification steps here, e.g., mail to: 'your-email@example.com', subject: 'User Frontend Build Failed'
+        }
+        success {
+            echo 'User Frontend built successfully!'
+        }
+    }
+}

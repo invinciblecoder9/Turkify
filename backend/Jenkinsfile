@@ -1,0 +1,29 @@
+// backend/Jenkinsfile
+pipeline {
+    agent any
+    tools { nodejs 'Node_20.x' }
+    environment {
+        // Use withCredentials to securely inject secrets from Jenkins Credentials
+        // Replace 'your-db-url-credential-id' with the actual ID you set in Jenkins
+        // For GCP_SERVICE_ACCOUNT_KEY_JSON, use 'file' to mount the secret file
+        withCredentials([
+            string(credentialsId: 'backend-database-url', variable: 'DATABASE_URL'),
+            string(credentialsId: 'backend-jwt-secret', variable: 'JWT_SECRET'),
+            string(credentialsId: 'backend-worker-jwt-secret', variable: 'WORKER_JWT_SECRET'),
+            string(credentialsId: 'backend-solana-rpc-url', variable: 'SOLANA_RPC_URL'),
+            string(credentialsId: 'backend-payout-key', variable: 'PAYOUT_WALLET_PRIVATE_KEY'),
+            file(credentialsId: 'gcp-service-account-key', variable: 'GCP_SA_KEY_FILE_PATH') // Mounts the JSON key as a file
+        ]) {
+            sh 'export GOOGLE_APPLICATION_CREDENTIALS=$GCP_SA_KEY_FILE_PATH' // Set env var for Storage client
+            sh 'cd backend && npm install'
+            sh 'cd backend && npm test'
+            sh 'cd backend && npm run build'
+            sh 'cd backend && npx prisma migrate deploy'
+        }
+    }
+    post {
+        always { echo 'Build finished for Backend.' }
+        failure { echo 'Backend build failed!' }
+        success { echo 'Backend built successfully!' }
+    }
+}

@@ -1,0 +1,34 @@
+// worker-frontend/Jenkinsfile (similar to user-frontend, adjust paths)
+pipeline {
+    agent any
+    tools { nodejs 'Node_20.x' }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/invinciblecoder9/Turkify.git'
+                sh 'cd worker-frontend'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'cd worker-frontend && npm install'
+            }
+        }
+        stage('Run Tests & Lint') {
+            steps {
+                sh 'cd worker-frontend && npm test'
+                sh 'cd worker-frontend && npm run lint'
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                sh 'cd worker-frontend && npm run build -- --no-lint'
+            }
+        }
+    }
+    post {
+        always { echo 'Build finished for Worker Frontend.' }
+        failure { echo 'Worker Frontend build failed!' }
+        success { echo 'Worker Frontend built successfully!' }
+    }
+}
